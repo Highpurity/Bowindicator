@@ -1,26 +1,25 @@
 package bowshot.highpurity.cc.botshotindicator.Listeners;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 
 public class Bowshotlistener implements Listener {
     @EventHandler
-    public void onShootBow(EntityShootBowEvent e){
-
-        Entity entity = e.getEntity();
-        Player player = (Player) entity;
-
-
-        if (e.getEntityType() == EntityType.PLAYER) {
-
-            player.sendMessage("Test");
-
+    public void onProjectileHit(ProjectileHitEvent e) {
+        if (!(e.getEntity() instanceof Arrow arrow)) {
+            return;
         }
 
+        if (!(arrow.getShooter() instanceof Player shooter)) {
+            return;
+        }
+
+        if (e.getHitEntity() instanceof Player hitPlayer){
+            shooter.sendMessage(ChatColor.RED + hitPlayer.getName() + " is on " + hitPlayer.getHealth() + " HP! ");
+        }
     }
 }
